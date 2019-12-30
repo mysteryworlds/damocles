@@ -37,7 +37,10 @@ addons:
 ### Actual Build Script ###
 ###########################
 script:
-  - ./gradlew build check codeCoverageReport --scan -s
+  - ./gradlew build
+  - ./gradlew check
+  - ./gradlew codeCoverageReport
+  - ./gradlew --scan -s
   - ./gradlew sonarqube
 
 ##################
