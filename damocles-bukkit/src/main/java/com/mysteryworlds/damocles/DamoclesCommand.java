@@ -2,21 +2,20 @@ package com.mysteryworlds.damocles;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.UUID;
-import org.bukkit.Material;
+import java.util.function.Consumer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-public class DamoclesCommand implements CommandExecutor, TabCompleter {
-  private DamoclesCommand() {
-  }
+public final class DamoclesCommand implements CommandExecutor, TabCompleter {
+  private final DamoclesItemRegistry itemRegistry;
 
-  public static DamoclesCommand create() {
-    return new DamoclesCommand();
+  public DamoclesCommand(
+    DamoclesItemRegistry itemRegistry
+  ) {
+    this.itemRegistry = itemRegistry;
   }
 
   @Override
@@ -42,8 +41,11 @@ public class DamoclesCommand implements CommandExecutor, TabCompleter {
     }
     var player = (Player) sender;
     var itemInHand = player.getItemInHand();
-    var damoclesItem = DamoclesItem.fromItemStack(itemInHand);
-    sender.sendMessage("You got the " + damoclesItem.id() + " (" + damoclesItem.rarity() + "): " + damoclesItem.description());
+    var damoclesItem = itemRegistry.findByItemStack(itemInHand);
+    damoclesItem.ifPresentOrElse(
+      item -> sender.sendMessage("You got the " + item.id() + " (" + item
+        .rarity() + "): " + item.description()),
+      () -> sender.sendMessage("That's not a damocles item"));
     return true;
   }
 
@@ -51,14 +53,9 @@ public class DamoclesCommand implements CommandExecutor, TabCompleter {
     if (!(sender instanceof Player)) {
       return false;
     }
-    var item = DamoclesItem.create(
-      UUID.randomUUID(),
-      new ItemStack(Material.WOODEN_SWORD),
-      "A mystical weapon to bend the knee",
-      ItemRarity.MYTHICAL
-    );
     var player = (Player) sender;
-    player.getInventory().addItem(item.itemStack());
+    var item = itemRegistry.findAll().get(0);
+    player.getInventory().addItem(item.asItemStack());
     return true;
   }
 
