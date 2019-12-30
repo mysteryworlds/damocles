@@ -9,6 +9,11 @@ buildScan {
 
 allprojects {
     apply plugin: 'java'
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+    }
 }
 
 sonarqube {
