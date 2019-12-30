@@ -9,4 +9,8 @@ website: https://www.mysteryworlds.com
 
 prefix: damocles
 
-api-version: 1.15.1
+api-version: "1.15"
+
+commands:
+  damocles:
+    description: Manage damocles items
