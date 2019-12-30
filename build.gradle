@@ -9,10 +9,18 @@ buildScan {
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'checkstyle'
 
     java {
         withSourcesJar()
         withJavadocJar()
+    }
+
+    checkstyle {
+        maxWarnings = 0
+        ignoreFailures = false
+        toolVersion '8.27'
+        checkstyleTest.enabled = false
     }
 }
 
