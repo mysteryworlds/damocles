@@ -1,7 +1,12 @@
 package com.mysteryworlds.damocles;
 
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.attribute.AttributeModifier.Operation;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Damocles extends JavaPlugin {
@@ -23,6 +28,13 @@ public final class Damocles extends JavaPlugin {
       .withType(ItemType.WEAPON)
       .withRarity(ItemRarity.RARE)
       .withBehavior(ExplosionItemBehaviour.create())
+      .addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(
+        UUID.randomUUID(),
+        "damage",
+        2,
+        Operation.ADD_SCALAR,
+        EquipmentSlot.HAND
+      ))
       .create();
     itemRegistry.register(item);
   }

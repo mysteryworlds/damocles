@@ -1,11 +1,17 @@
 package com.mysteryworlds.damocles;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,6 +30,7 @@ public final class DamoclesItem {
   private final ItemRarity rarity;
   private final ItemType type;
   private final ItemBehaviour behaviour;
+  private final Multimap<Attribute, AttributeModifier> attributeModifiers;
 
   private DamoclesItem(
     UUID id,
@@ -32,7 +39,8 @@ public final class DamoclesItem {
     String description,
     ItemRarity rarity,
     ItemType type,
-    ItemBehaviour behaviour
+    ItemBehaviour behaviour,
+    Multimap<Attribute, AttributeModifier> attributeModifiers
   ) {
     this.id = id;
     this.displayName = displayName;
@@ -41,6 +49,7 @@ public final class DamoclesItem {
     this.rarity = rarity;
     this.type = type;
     this.behaviour = behaviour;
+    this.attributeModifiers = attributeModifiers;
   }
 
   public ItemStack asItemStack() {
@@ -57,6 +66,7 @@ public final class DamoclesItem {
   private ItemMeta createItemMeta() {
     var itemMeta = Bukkit.getItemFactory().getItemMeta(material);
     setupPersistentData(itemMeta);
+    itemMeta.setAttributeModifiers(attributeModifiers);
     itemMeta.setUnbreakable(true);
     itemMeta.setLore(List.of(description));
     itemMeta.setDisplayName(displayName);
@@ -97,7 +107,11 @@ public final class DamoclesItem {
   }
 
   public static Builder newBuilder() {
-    return new Builder(UUID.randomUUID(), ItemRarity.COMMON);
+    return new Builder(
+      UUID.randomUUID(),
+      ItemRarity.COMMON,
+      ArrayListMultimap.create()
+    );
   }
 
   public static final class Builder {
@@ -108,10 +122,16 @@ public final class DamoclesItem {
     private ItemRarity rarity;
     private ItemType type;
     private ItemBehaviour behaviour;
+    private Multimap<Attribute, AttributeModifier> attributeModifiers;
 
-    private Builder(UUID id, ItemRarity rarity) {
+    private Builder(
+      UUID id,
+      ItemRarity rarity,
+      Multimap<Attribute, AttributeModifier> attributeModifiers
+    ) {
       this.id = id;
       this.rarity = rarity;
+      this.attributeModifiers = attributeModifiers;
     }
 
     public Builder withId(UUID id) {
@@ -156,6 +176,16 @@ public final class DamoclesItem {
       return this;
     }
 
+    public Builder addAttributeModifier(
+      Attribute attribute,
+      AttributeModifier attributeModifier
+    ) {
+      Preconditions.checkNotNull(attribute);
+      Preconditions.checkNotNull(attributeModifier);
+      attributeModifiers.put(attribute, attributeModifier);
+      return this;
+    }
+
     public DamoclesItem create() {
       Preconditions.checkNotNull(id);
       Preconditions.checkNotNull(displayName);
@@ -164,7 +194,16 @@ public final class DamoclesItem {
       Preconditions.checkNotNull(rarity);
       Preconditions.checkNotNull(type);
       Preconditions.checkNotNull(behaviour);
-      return new DamoclesItem(id, displayName, material, description, rarity, type, behaviour);
+      return new DamoclesItem(
+        id,
+        displayName,
+        material,
+        description,
+        rarity,
+        type,
+        behaviour,
+        attributeModifiers
+      );
     }
   }
 }

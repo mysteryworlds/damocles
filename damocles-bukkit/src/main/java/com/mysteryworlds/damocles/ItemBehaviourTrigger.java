@@ -8,9 +8,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public final class ItemBehaviourTrigger implements Listener {
   private final ItemRegistry itemRegistry;
 
-  public ItemBehaviourTrigger(
-    ItemRegistry itemRegistry
-  ) {
+  public ItemBehaviourTrigger(ItemRegistry itemRegistry) {
     this.itemRegistry = itemRegistry;
   }
 
