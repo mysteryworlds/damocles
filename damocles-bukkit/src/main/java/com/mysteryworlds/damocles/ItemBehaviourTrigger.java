@@ -1,6 +1,7 @@
 package com.mysteryworlds.damocles;
 
 import com.google.common.base.Preconditions;
+import java.util.Optional;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,7 +20,7 @@ public final class ItemBehaviourTrigger implements Listener {
     if (itemStack == null) {
       return;
     }
-    var item = itemRegistry.findByItemStack(itemStack);
+    Optional<DamoclesItem> item = itemRegistry.findByItemStack(itemStack);
     item.ifPresent(damoclesItem -> damoclesItem.triggerBehaviour(interaction));
   }
 }
