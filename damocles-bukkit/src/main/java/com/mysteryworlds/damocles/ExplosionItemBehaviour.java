@@ -2,7 +2,7 @@ package com.mysteryworlds.damocles;
 
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public final class ExplosionItemBehaviour implements DamoclesItemBehaviour {
+public final class ExplosionItemBehaviour implements ItemBehaviour {
   private ExplosionItemBehaviour() {
   }
 

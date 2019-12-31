@@ -1,0 +1,10 @@
+items:
+  damocles-sword:
+    id: 3c1ceeb0-809b-4cf8-a2b2-9fe8a246f8e0
+    name: "&cDamcoles Sword"
+    description: "One sword to kill them all"
+    rarity: ANCIENT
+    type: WEAPON
+    itemstack:
+      material: WOODEN_SWORD
+

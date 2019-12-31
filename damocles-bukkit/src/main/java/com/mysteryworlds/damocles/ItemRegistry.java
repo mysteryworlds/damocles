@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public final class DamoclesItemRegistry {
+public final class ItemRegistry {
   private final Map<UUID, DamoclesItem> items = Maps.newHashMap();
 
   public Optional<DamoclesItem> find(UUID itemId) {

@@ -1,31 +1,29 @@
 package com.mysteryworlds.damocles;
 
-import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Damocles extends JavaPlugin {
-  private DamoclesItemRegistry itemRegistry;
+  private ItemRegistry itemRegistry;
 
   @Override
   public void onEnable() {
-    itemRegistry = new DamoclesItemRegistry();
+    itemRegistry = new ItemRegistry();
     registerCommands();
     registerListeners();
     loadItems();
   }
 
   private void loadItems() {
-    var item = DamoclesItem.create(
-      UUID.randomUUID(),
-      "Lucifers stick",
-      new ItemStack(Material.WOODEN_SWORD),
-      "A mystical weapon to bend the knee",
-      ItemRarity.MYTHICAL,
-      ExplosionItemBehaviour.create()
-    );
+    var item = DamoclesItem.newBuilder()
+      .withMaterial(Material.GOLDEN_SWORD)
+      .withDescription("The sword of the old man Damocles")
+      .withDisplayName("Damocle's sword")
+      .withType(ItemType.WEAPON)
+      .withRarity(ItemRarity.RARE)
+      .withBehavior(ExplosionItemBehaviour.create())
+      .create();
     itemRegistry.register(item);
   }
 

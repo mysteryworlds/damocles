@@ -2,7 +2,6 @@ package com.mysteryworlds.damocles;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import java.util.function.Consumer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,10 +9,10 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 public final class DamoclesCommand implements CommandExecutor, TabCompleter {
-  private final DamoclesItemRegistry itemRegistry;
+  private final ItemRegistry itemRegistry;
 
   public DamoclesCommand(
-    DamoclesItemRegistry itemRegistry
+    ItemRegistry itemRegistry
   ) {
     this.itemRegistry = itemRegistry;
   }

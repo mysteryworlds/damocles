@@ -1,18 +1,15 @@
 package com.mysteryworlds.damocles;
 
 import com.google.common.base.Preconditions;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 public final class ItemBehaviourTrigger implements Listener {
-  private final DamoclesItemRegistry itemRegistry;
+  private final ItemRegistry itemRegistry;
 
   public ItemBehaviourTrigger(
-    DamoclesItemRegistry itemRegistry
+    ItemRegistry itemRegistry
   ) {
     this.itemRegistry = itemRegistry;
   }
